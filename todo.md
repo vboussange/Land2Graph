@@ -12,7 +12,7 @@ using LightGraphs
 A = [0 1; 1 0] # adjacency matrix
 g = SimpleGraph(A)
 ```
-    - compute betweenness_centrality for each of the graph, and the average for the window
+    - compute the mean betweenness_centrality for each of the graph, and then average over all graphs for the window
 ```julia
 using Statistics
 mean(betweenness_centrality(g))
