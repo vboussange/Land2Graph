@@ -1,22 +1,23 @@
 cd(@__DIR__)
 using Pkg; Pkg.activate(".")
-using PyCall, PyPlot
 using ArchGDAL; const AG = ArchGDAL
 using Statistics
 using ProgressMeter
 using Glob, JLD2
+using Dates
+verbose = true
+test = false
+plotting = false
 
-cd(@__DIR__)
 include("src/extract_graph_from_raster.jl")
 savedir = "results/lvl2_frac_1km_ver004"
 isdir(savedir) ? nothing : mkpath(savedir)
-verbose = false
-test = true
 ## COMPOSITE ##
 
 datalist = glob("./data/lvl2_frac_1km_ver004/*.tif")
 
-
+println("Starting computation")
+println(now())
 Threads.@sync Threads.@threads for f in datalist
     dataset = AG.read(f)
     fsplit = split(f,"_")
@@ -52,15 +53,17 @@ Threads.@sync Threads.@threads for f in datalist
 end
 
 # plotting
-datalist = glob(savedir*"/*.jld2")
-for _dat in datalist
-    @load _dat newraster
-    savename = split(_dat,"/")[end]
-    savenamfig = string(split(savename,".")[1],".pdf")
-    fig, ax = plt.subplots();
-    ax.imshow(newraster')
-    fig.savefig(joinpath(savedir,savenamfig))
-    plt.close(fig)
+if plotting
+    datalist = glob(savedir*"/*.jld2")
+    for _dat in datalist
+        @load _dat newraster
+        savename = split(_dat,"/")[end]
+        savenamfig = string(split(savename,".")[1],".pdf")
+        fig, ax = plt.subplots();
+        ax.imshow(newraster')
+        fig.savefig(joinpath(savedir,savenamfig))
+        plt.close(fig)
+    end
 end
-
+println(now())
 println("Computation over")
