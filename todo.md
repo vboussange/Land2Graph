@@ -30,3 +30,5 @@ mean(betweenness_centrality(g))
 
 - what are the values inside the rasters? I do not understand
 
+# Benji meeting
+> level2_frac1km
