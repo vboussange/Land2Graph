@@ -5,7 +5,7 @@
 - slice it in windows of 100x100km
 - perform a loop over those windows, from which graphs are extracted
     - let's first consider only one type of habitats (say `lvl2_frac_1km_ver004/iucn_habitatclassification_fraction_lvl2__104_Forest – Temperate__ver004.tif`)
-    - extract the graphs in an array, by considering that nodes are connected if neighbours (consider 8 neihbours, i.e. direct neighbours and diagonal)
+    - [x] extract the graphs in an array, by considering that nodes are connected if neighbours (consider 8 neihbours, i.e. direct neighbours and diagonal)
     > for this, use LightGraphs.jl. See example
 ```julia
 using LightGraphs

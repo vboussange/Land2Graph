@@ -1,3 +1,4 @@
+using LightGraphs
 function extract_adjacency_from_raster(N::BitMatrix)
     s1 = size(N,1)
     s2 = size(N,2)
