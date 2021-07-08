@@ -18,7 +18,7 @@ savedir = "results/forests"
 isdir(savedir) ? nothing : mkpath(savedir)
 
 
-if simulation
+@time if simulation
     dataset_hab = AG.read("./data/lvl1_frac_1km_ver004/iucn_habitatclassification_fraction_lvl1__100_Forest__ver004.tif")
     dataset_temp = AG.read("./data/chelsa/CHELSA_bio1_reprojected.tif")
 
@@ -34,23 +34,24 @@ if simulation
     raster_g = Array{SimpleGraph{Int16}}(undef,length(raster_i), length(raster_j))
 
     # preallocating
-    band_hab = AG.getband(dataset_hab, 1) #x, y , window size
-    band_temp = AG.getband(dataset_temp, 1) #x, y , window size
+    data_hab = [AG.read(dataset_hab, 1, 1, 1, window_size, window_size) for i in 1:Threads.nthreads()] #x, y , window size
+    data_temp = [AG.read(dataset_temp, 1, 1, 1, window_size, window_size) for i in 1:Threads.nthreads()]#x, y , window size
 
     # main loop
     for ii in 1:length(raster_i)-1
+        i = raster_i[ii]
         for (jj,j) in enumerate(raster_j[1:end-1])
-            i = raster_i[ii]
-            data = view(band_hab, i:i+window_size,j:j+window_size)
-            data_temp = view(band_temp, i:i+window_size,j:j+window_size)
+            id = Threads.threadid()
+            data_hab[id] .= AG.read(dataset_hab, 1, i, j, window_size, window_size)
            
-            ncells = count(data .> 0)
+            ncells = count(data_hab[id] .> 0)
             if ncells > 0
+                data_temp[id] .= AG.read(dataset_temp, 1, i, j, window_size, window_size)
                 verbose && println(ncells, " cells of habitats ", habitat, " were found")
-                g, B = extract_graph_1km(data)
+                g, B = extract_graph_1km(data_temp[id])
                 # calculating metrics
                 raster["sqrtk"][ii,jj] = sqrtk(g)
-                raster["assortativity"][ii,jj] = assortativity(g, data_temp[B])
+                raster["assortativity"][ii,jj] = assortativity(g, data_temp[id][B])
                 # storing graph
                 raster_g[ii,jj] = g
 
