@@ -1,6 +1,5 @@
 cd(@__DIR__)
 using Pkg; Pkg.activate(".")
-# using PyPlot
 using ArchGDAL; const AG = ArchGDAL
 using Statistics
 using ProgressMeter
@@ -76,15 +75,16 @@ println("Computation over")
 
 # plotting
 if plotting
+    using PyPlot
     datalist = glob(savedir*"/*.jld2")
     for _dat in datalist
         @load _dat raster
         savename = split(_dat,"/")[end]
         for k in keys(raster)
-            savenamfig = string(split(savename,".")[1],k,".pdf")
+            savenamfig = string(split(savename,".")[1],k,"area",area_threshold,".pdf")
             fig, ax = plt.subplots();
-            ax.imshow(raster[k]')
-            # plt.colorbar(ax)
+            im = ax.imshow(raster[k]')
+            plt.colorbar(im, label=k)
             fig.savefig(joinpath(savedir,savenamfig))
             plt.close(fig)
         end
