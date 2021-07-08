@@ -1,4 +1,10 @@
 using LightGraphs
+
+"""
+    function extract_adjacency_from_raster(N::BitMatrix)
+Given `N` a matrix of suitable habitat (`true` if suitable habitat at index `i,j`), returns a graph.
+Habitats are potentially connected to eight neighbours (left, diagonal left top, top, diagonal right top, etc...).
+"""
 function extract_adjacency_from_raster(N::BitMatrix)
     s1 = size(N,1)
     s2 = size(N,2)
@@ -29,6 +35,10 @@ function extract_adjacency_from_raster(N::BitMatrix)
     return A
 end
 
+"""
+    function extract_graph(N, habitat = 1)
+Extract graph from raster `N`, with habitat defined by value `habitat`
+"""
 function extract_graph(N, habitat = 1)
     B = N .== habitat
     A = extract_adjacency_from_raster(B)
@@ -36,6 +46,10 @@ function extract_graph(N, habitat = 1)
     return g[LinearIndices(B)[B]]
 end
 
+"""
+    function extract_graph_1km(N, area = 0)
+Extract graph from raster fractional raster `N`, given threshold `area`
+"""
 function extract_graph_1km(N, area = 0)
     B = N .> area
     A = extract_adjacency_from_raster(B)
