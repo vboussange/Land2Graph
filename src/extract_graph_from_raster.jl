@@ -5,7 +5,7 @@ using LightGraphs
 Given `N` a matrix of suitable habitat (`true` if suitable habitat at index `i,j`), returns a graph.
 Habitats are potentially connected to eight neighbours (left, diagonal left top, top, diagonal right top, etc...).
 """
-function extract_adjacency_from_raster(N::BitMatrix)
+function extract_adjacency_from_raster(N)
     s1 = size(N,1)
     s2 = size(N,2)
     _li = LinearIndices(N)
@@ -48,11 +48,12 @@ end
 
 """
     function extract_graph_1km(N, area = 0)
-Extract graph from raster fractional raster `N`, given threshold `area`
+Extract graph from fractional raster `N`, given threshold `area`
+return graph and coordinate BitMatrix for habitats
 """
 function extract_graph_1km(N, area = 0)
     B = N .> area
     A = extract_adjacency_from_raster(B)
     g = SimpleGraph{Int16}(A)
-    return g[LinearIndices(B)[B]]
+    return g[LinearIndices(B)[B]], B
 end
