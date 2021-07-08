@@ -35,3 +35,10 @@ function extract_graph(N, habitat = 1)
     g = SimpleGraph(A)
     return g[LinearIndices(B)[B]]
 end
+
+function extract_graph_1km(N, area = 0)
+    B = N .> area
+    A = extract_adjacency_from_raster(B)
+    g = SimpleGraph(A)
+    return g[LinearIndices(B)[B]]
+end

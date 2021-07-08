@@ -7,13 +7,14 @@ using ProgressMeter
 using Glob, JLD2
 using Dates
 verbose = true
-test = false
+test = true
 plotting = false
 simulation = true
 
 include("src/extract_graph_from_raster.jl")
-savedir = "results/lvl1_frac_1km_ver004"
+savedir = "results/lvl2_frac_1km_ver004"
 isdir(savedir) ? nothing : mkpath(savedir)
+
 
 if simulation
     datalist = glob("./data/lvl2_frac_1km_ver004/*.tif")
@@ -34,10 +35,10 @@ if simulation
         # main loop
         for (ii,i) in enumerate(newraster_i[1:end-1]), (jj,j) in enumerate(newraster_j[1:end-1])
             data .= AG.read(dataset, 1, i, j, window_size, window_size) #x, y , window size
-            ncells = count(data .== habitat)
+            ncells = count(data .> 0)
             if ncells > 0
                 verbose && println(ncells, " cells of habitats ", habitat, " were found")
-                g = extract_graph(data, habitat)
+                g = extract_graph_1km(data)
                 metrics = mean(degree(g))
                 verbose && println("mean metrics = ", metrics)
                 newraster[ii,jj] = metrics
