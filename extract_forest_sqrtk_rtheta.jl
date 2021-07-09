@@ -6,10 +6,12 @@ using ProgressMeter
 using Glob, JLD2
 using Dates
 verbose = true
-test = false
+test = fakse
 plotting = false
 simulation = true
 area_threshold = 500
+bio = "bio12" #bio12 for precipitations, bio1 for temperature
+_savename = "forest_lvl1_sqrtk_rtheta_$(bio)_nearest"
 
 include("src/extract_graph_from_raster.jl")
 include("src/graph_metrics.jl")
@@ -20,7 +22,7 @@ isdir(savedir) ? nothing : mkpath(savedir)
 
 @time if simulation
     dataset_hab = AG.read("./data/lvl1_frac_1km_ver004/iucn_habitatclassification_fraction_lvl1__100_Forest__ver004.tif")
-    dataset_temp = AG.read("./data/chelsa/CHELSA_bio1_reprojected.tif")
+    dataset_temp = AG.read("./data/chelsa/CHELSA_$(bio)_reprojected_nearest.tif")
 
     window_size = 100#km
     habitat = "forest"
@@ -38,8 +40,7 @@ isdir(savedir) ? nothing : mkpath(savedir)
     data_temp = AG.read(dataset_temp, 1)
 
     # main loop
-    # Threads.@threads 
-    for ii in 1:length(raster_i)-1
+    Threads.@threads for ii in 1:length(raster_i)-1
         i = raster_i[ii]
         for (jj,j) in enumerate(raster_j[1:end-1])
             datahab_ij = view(data_hab, i:i+window_size,j:j+window_size)
@@ -67,8 +68,7 @@ isdir(savedir) ? nothing : mkpath(savedir)
             end
         end
     end
-    _savename = "forest_lvl1_sqrtk_rtheta"
-    _savename = string(split(_savename,".")[1],".jld2")
+    _savename = string(_savename,".jld2")
     @save joinpath(savedir,_savename) raster raster_g
 end
 println(now())
