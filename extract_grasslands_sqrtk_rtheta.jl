@@ -11,12 +11,13 @@ plotting = false
 simulation = true
 area_threshold = 500
 bio = "bio12" #bio12 for precipitations, bio1 for temperature
-_savename = "forest_lvl1_sqrtk_rtheta_$(bio)_nearest"
+habitat = "grassland"
 
+_savename = "$(habitat)_lvl1_sqrtk_rtheta_$(bio)_nearest"
 include("src/extract_graph_from_raster.jl")
 include("src/graph_metrics.jl")
 
-savedir = "results/grasslands"
+savedir = "results/$habitat"
 isdir(savedir) ? nothing : mkpath(savedir)
 
 
@@ -25,7 +26,6 @@ isdir(savedir) ? nothing : mkpath(savedir)
     dataset_temp = AG.read("./data/chelsa/CHELSA_$(bio)_reprojected_nearest.tif")
 
     window_size = 100#km
-    habitat = "grassland"
     raster_i = 1:window_size:AG.width(dataset_hab)
     raster_j = 1:window_size:AG.height(dataset_hab)
 
