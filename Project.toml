@@ -1,3 +1,4 @@
 [deps]
 ArchGDAL = "c9ce4bd3-c3d5-55b8-8973-c0e20141b8c3"
+PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 SimpleTraits = "699a6c99-e7fa-54fc-8d76-47d257e15c1d"

@@ -4,11 +4,14 @@ import cartopy.feature as cf
 import rasterio
 import matplotlib.pyplot as plt
 from shapely import geometry
+from numpy import savetxt
 
 rivers_50m = cf.NaturalEarthFeature('physical', 'rivers_lake_centerlines', '50m')
 
 # plotting whole file
-filename = './data/lvl1_frac_1km_ver004/iucn_habitatclassification_fraction_lvl1__100_Forest__ver004.tif'
+# import os # not sure this is necessary
+# os.chdir(os.path.dirname(__file__))
+filename = '../data/lvl1_frac_1km_ver004/iucn_habitatclassification_fraction_lvl1__100_Forest__ver004.tif'
 with rasterio.open(filename, 'r') as src:
 
     # read image into ndarray
@@ -78,7 +81,7 @@ with rasterio.open(filename, 'r') as src:
     windowmaxx = 96.
     windowminy = 25
     windowmaxy = 26
-    geom = geometry.box(minx=windowminx,maxx=windowmaxx,miny=windowminy,maxy=windowmaxy)
+    geom = geometry.box(minx=windowminx, maxx=windowmaxx, miny=windowminy, maxy=windowmaxy)
     ax1.add_geometries([geom], alpha=0.5, crs = crs)
 
     ##### adding an other plot
@@ -88,6 +91,8 @@ with rasterio.open(filename, 'r') as src:
 
     # read image into ndarray
     im2 = src.read(1, window = rasterio.windows.Window( col, row2, col2-col, row - row2))
+    # save the array for later
+    savetxt('im2.csv', im2, delimiter=',')
     # define cartopy crs for the raster
     crs = ccrs.PlateCarree()
 
