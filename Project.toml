@@ -1,4 +1,6 @@
 [deps]
 ArchGDAL = "c9ce4bd3-c3d5-55b8-8973-c0e20141b8c3"
+EvoId = "837ac870-fb52-4b0c-9a0e-030f2f36f5ed"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 SimpleTraits = "699a6c99-e7fa-54fc-8d76-47d257e15c1d"
