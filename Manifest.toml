@@ -661,7 +661,9 @@ uuid = "d8a4904e-b15c-11e9-3269-09a3773c0cb0"
 version = "0.2.20"
 
 [[NaNMath]]
-git-tree-sha1 = "bfe47e760d60b82b66b61d2d44128b62e3a369fb"
+git-tree-sha1 = "5a97017b2df1449ca61a7605ec4a46ecbc8476a7"
+repo-rev = "master"
+repo-url = "https://github.com/mlubin/NaNMath.jl"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
 version = "0.3.5"
 

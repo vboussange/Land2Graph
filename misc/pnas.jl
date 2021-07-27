@@ -4,16 +4,16 @@ mplt = pyimport("mpl_toolkits.axes_grid1.inset_locator")
 ticker = pyimport("matplotlib.ticker")
 FormatStrFormatter = ticker.FormatStrFormatter
 rcParams = PyPlot.PyDict(PyPlot.matplotlib."rcParams")
-# rcParams["text.usetex"] = true
-# rcParams["text.latex.preamble"] = [
-#                                     "\\usepackage{nicefrac,DejaVuSans}",
-#                                     "\\usepackage{sansmath}",
-#                                     "\\sansmath",
-#                                     "\\usepackage{mathtools}",
-#                                     # "\\usepackage{xcolor}",
-#                                     # "\\newcommand\\rcirc{{\\color{red}\\bullet}\\mathllap{\\color{red}\\circ}}",
-#                                     # "\\newcommand\\bcirc{{\\color{blue}\\bullet}\\mathllap{\\color{blue}\\circ}}"
-#                                     ]
+rcParams["text.usetex"] = true
+rcParams["text.latex.preamble"] = [
+                                    "\\usepackage{nicefrac,DejaVuSans}",
+                                    "\\usepackage{sansmath}",
+                                    "\\sansmath",
+                                    "\\usepackage{mathtools}",
+                                    # "\\usepackage{xcolor}",
+                                    # "\\newcommand\\rcirc{{\\color{red}\\bullet}\\mathllap{\\color{red}\\circ}}",
+                                    # "\\newcommand\\bcirc{{\\color{blue}\\bullet}\\mathllap{\\color{blue}\\circ}}"
+                                    ]
 rcParams["font.size"] = 8
 @show rcParams["font.size"]
 rcParams["axes.titlesize"] = 12
